@@ -16,8 +16,8 @@ Cms.setup do |config|
   config.route = 'cms'
   config.username = '#{username}'
   config.password = '#{password}'
-  config.controllers = ['MainController']
-  config.allowed_ips = ['5.150.195.42']
+  config.controllers = []
+  config.allowed_ips = []
 
   config.controllers.each do |controller_name|
     controller = Kernel.const_get(controller_name)
@@ -31,8 +31,8 @@ Cms initializer created with
   route: cms
   username: #{username}
   password: #{password}
-  controllers: ['MainController']
-  allowed_ips: ['5.150.195.42']
+  controllers: []
+  allowed_ips: []
 Now run 'rake db:migrate'.
     INFO
   end
