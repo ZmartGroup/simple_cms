@@ -1,0 +1,27 @@
+body {
+    margin: 15px 40px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+h1 {
+    font-family: Times, "Times new roman", serif;
+    font-size: 50px;
+    margin: 0 0 40px 0;
+    color: #999;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+ul li:before
+{
+    content: '\2605';
+    margin: 0 20px 0 -20px;
+}
+}

@@ -1,0 +1,8 @@
+<h1>Content Management</h1>
+
+<h2>Pages</h2>
+<ul>
+  <% for page in @pages %>
+  <li><%= link_to page, edit_cms_texts_path(page) %></li>
+  <% end %>
+</ul>

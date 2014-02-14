@@ -1,0 +1,13 @@
+<div id="editor" class="modal hide fade">
+<%= form_tag update_cms_texts_path, method: :put, id: 'editor_form' do %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Edit Content</h3>
+  </div>
+  <div class="modal-body">
+    <%= hidden_field :cms_text, :id, id: 'editor_item' %>
+    <%= text_area :cms_text, :value, id: 'editor_input' %>
+    <%= submit_tag 'Save' %>
+  </div>
+<% end %>
+</div>

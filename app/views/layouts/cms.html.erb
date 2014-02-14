@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Content Management System</title>
+  <%= stylesheet_link_tag "cms_landing", :media => "all" %>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+  <% if notice %>
+  <div id="notice">
+    <%= notice %>
+  </div>
+  <% end %>
+  <%= yield %>
+</body>
+</html>
