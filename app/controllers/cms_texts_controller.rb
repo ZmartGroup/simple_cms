@@ -32,7 +32,7 @@ class CmsTextsController < ActionController::Base
 
   def update
     @cms_text = CmsText.find(params[:cms_text][:id])
-    @cms_text.value = params[:cms_text][:value].sub('<', '&lt;').sub('>', '&gt;')
+    @cms_text.value = params[:cms_text][:value].gsub('<', '&lt;').gsub('>', '&gt;')
     @cms_text.save!
 
     CmsTextsController.clear_cms_cache
