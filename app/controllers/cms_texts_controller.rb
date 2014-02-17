@@ -4,23 +4,38 @@ class CmsTextsController < ActionController::Base
 
   layout './cms'
 
+  def self.clear_cms_cache
+    CmsTextsController.pages.each do |page_name|
+      Rails.cache.delete(page_name)
+    end
+  end
+
+  def self.pages
+    Cms.controllers.map do |controller_name|
+      controller = Kernel.const_get(controller_name)
+      controller_readable = controller_name.sub('Controller', '').downcase
+      (controller.action_methods - ApplicationController.action_methods).map do |name|
+        "#{controller_readable}##{name}" unless name[0] == '_'
+      end.select(&:present?)
+    end.flatten.sort
+  end
+
   def index
-    @pages = pages
+    @pages = CmsTextsController.pages
   end
 
   def edit
     @page = params[:page_name]
-    @copy_text = CmsText.where("key LIKE '#{@page}%'")
     @rendered_page = inject_editor(editable_page(@page))
     render layout: false
   end
 
   def update
     @cms_text = CmsText.find(params[:cms_text][:id])
-    @cms_text.value = params[:cms_text][:value]
+    @cms_text.value = params[:cms_text][:value].sub('<', '&lt;').sub('>', '&gt;')
     @cms_text.save!
 
-    Rails.cache.delete(@cms_text.key.split('.').first)
+    CmsTextsController.clear_cms_cache
     redirect_to cms_texts_path, :notice => "#{@cms_text.key} updated!"
   end
 
@@ -28,20 +43,15 @@ class CmsTextsController < ActionController::Base
 
   def editable_page(page)
     controller_name, action_name = page.split('#')
-    controller = Kernel.const_get("#{controller_name.capitalize}Controller").new
+    controller_name = controller_name.split('::').map {|a| a.capitalize }.join('::')
+    controller = Kernel.const_get("#{controller_name}Controller").new
     controller.request = self.request
-    rendered_page = controller.render_to_string(action_name)
-    @copy_text.each do |copy_text|
-      editable_content = "<span id=\"ct_#{copy_text.id}\">#{copy_text.value}</span>"
-      rendered_page = rendered_page.sub(copy_text.value, editable_content)
-    end
-
-    return rendered_page
+    controller.send(action_name) # This sets any variables used by template
+    controller.instance_variable_set(:@is_editor, true)
+    controller.render_to_string(action_name)
   end
 
   def inject_editor(preview_html)
-    @js_data = Hash[@copy_text.map{|ct| ["ct_#{ct.id}", ct.value]}].to_s.gsub(/=>/, ':')
-
     editor_header = render_to_string(:editor_header, layout: nil)
     editor_modal = render_to_string(:editor_modal, layout: nil)
     preview_html.sub('</head>', editor_header + '</head>').sub('</body>', editor_modal + '</body>')
@@ -51,17 +61,6 @@ class CmsTextsController < ActionController::Base
   end
 
   def editor_header
-
-  end
-
-  def pages
-    Cms.controllers.map do |controller_name|
-      controller = Kernel.const_get(controller_name)
-      controller_readable = controller_name.sub('Controller', '').downcase
-      (controller.action_methods - ApplicationController.action_methods).map do |name|
-        "#{controller_readable}##{name}" unless name[0] == '_'
-      end.select(&:present?)
-    end.flatten.sort
   end
 
   def cms_text_params

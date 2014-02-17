@@ -1,27 +1,2 @@
 <%= stylesheet_link_tag "bootstrap", :media => "all" %>
 <%= stylesheet_link_tag "cms", :media => "all" %>
-<%= javascript_include_tag "jquery-2.1.0.min" %>
-<%= javascript_include_tag "bootstrap.min" %>
-<script type="text/javascript">
-$(function(){
-    var html_id;
-    var data = <%= @js_data.to_s.html_safe %>;
-    $.each(data, function(key, value){
-	$('#' + key).on("click", function(ev){
-            ev.preventDefault();
-            html_id = $(this).attr("id");
-            $("#editor_item").val(html_id.substring(3));
-            $("#editor_input").val($(this).text());
-            $("#editor").modal("show");
-        }).addClass("cms_editable");
-    });
-
-    $("#editor_form").on("submit", function(ev){
-        ev.preventDefault();
-        var form = $(this);
-        $.post(form.attr("action"), form.serialize());
-        $("#editor").modal("hide");
-        $("#" + html_id).text($("#editor_input").val());
-    });
-});
-</script>
