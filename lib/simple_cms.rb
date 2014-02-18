@@ -7,6 +7,7 @@ module Cms
   mattr_accessor :username
   mattr_accessor :password
   mattr_accessor :controllers
+  mattr_accessor :mailers
   mattr_accessor :allowed_ips
 
   def self.setup

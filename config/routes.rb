@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       collection do
         put 'update', to: 'cms_texts#update', as: 'update'
         get 'edit/:page_name', to: 'cms_texts#edit', as: 'edit'
+        get 'edit-email/:email_name', to: 'cms_texts#edit_email', as: 'edit_email'
       end
     end
   end

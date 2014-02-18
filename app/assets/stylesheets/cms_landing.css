@@ -3,15 +3,15 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-h1 {
+h1.cms {
     font-family: Times, "Times new roman", serif;
     font-size: 50px;
     margin: 0 0 40px 0;
-    color: #999;
 }
 
-h2 {
+h2.cms {
     font-size: 20px;
+    color: #999;
 }
 
 ul {

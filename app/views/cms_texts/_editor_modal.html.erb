@@ -1,0 +1,37 @@
+<div id="editor" class="modal hide fade">
+<%= form_tag update_cms_texts_path, method: :put, id: 'editor_form' do %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Edit Content</h3>
+  </div>
+  <div class="modal-body">
+    <%= hidden_field :cms_text, :id, id: 'editor_item' %>
+    <%= text_area :cms_text, :value, id: 'editor_input' %>
+    <%= submit_tag 'Save' %>
+  </div>
+<% end %>
+</div>
+
+<%= javascript_include_tag "jquery-2.1.0.min" %>
+<%= javascript_include_tag "bootstrap.min" %>
+<script type="text/javascript">
+$(function(){
+    var html_id;
+
+    $(".cms_editable").on("click", function(ev){
+        ev.preventDefault();
+        html_id = $(this).attr("id");
+        $("#editor_item").val(html_id.substring(3));
+        $("#editor_input").val($(this).text());
+        $("#editor").removeClass('hide').modal("show");
+    });
+
+    $("#editor_form").on("submit", function(ev){
+        ev.preventDefault();
+        var form = $(this);
+        $.post(form.attr("action"), form.serialize());
+        $("#editor").modal("hide");
+        $("#" + html_id).text($("#editor_input").val());
+    });
+});
+</script>

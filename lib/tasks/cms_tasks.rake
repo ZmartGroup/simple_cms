@@ -17,6 +17,7 @@ Cms.setup do |config|
   config.username = '#{username}'
   config.password = '#{password}'
   config.controllers = []
+  config.mailers = []
   config.allowed_ips = []
 
   config.controllers.each do |controller_name|
@@ -32,6 +33,7 @@ Cms initializer created with
   username: #{username}
   password: #{password}
   controllers: []
+  mailers: []
   allowed_ips: []
 Now run 'rake db:migrate'.
     INFO

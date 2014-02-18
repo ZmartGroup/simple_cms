@@ -1,8 +1,16 @@
-<h1>Content Management</h1>
+<h1 class="cms">Content Management</h1>
 
-<h2>Pages</h2>
+<h2 class="cms">Pages</h2>
 <ul>
-  <% for page in @pages %>
+  <% @pages.each do |page| %>
   <li><%= link_to page, edit_cms_texts_path(page) %></li>
+  <% end %>
+</ul>
+
+
+<h2 class="cms">Email</h2>
+<ul>
+  <% @mailers.each do |index, mailer, description| %>
+  <li><%= link_to "#{mailer}" , edit_email_cms_texts_path(index) %><%= description %></li>
   <% end %>
 </ul>
