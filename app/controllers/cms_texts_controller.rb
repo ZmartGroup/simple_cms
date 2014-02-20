@@ -21,7 +21,7 @@ class CmsTextsController < ActionController::Base
   end
 
   def self.mailers
-    Cms.mailers.each_with_index.map {|o, index| [index, o[0], o[1].length > 1 ? " - #{o[1].last}" : '']}
+    Cms.mailers.each_with_index.map {|o, index| [index, o[0], o[1].length > 1 ? " - #{o[1][:description]}" : '']}
   end
 
   def index
@@ -69,7 +69,7 @@ class CmsTextsController < ActionController::Base
     mailer.instance_variable_set(:@is_editor, true)
 
     # Set variables used by template, and append is_preview to mailer to not send actual email
-    args = email.last + [true]
+    args = email.last[:args] + [true]
     mailer.send(action_name, *args)
   end
 
