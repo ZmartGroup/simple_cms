@@ -28,3 +28,8 @@
 .cms_if_block {
     background: repeating-linear-gradient(45deg, rgba(230, 230, 230, 0.6) 0px, rgba(230,180,180, 0.6) 25px, transparent 25px, transparent 50px, transparent 50px);
 }
+.cms_if_block h4 {
+    background: rgb(230, 180, 180);
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
+}

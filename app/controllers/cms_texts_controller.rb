@@ -1,3 +1,8 @@
+# Picked up in CMS helper to insert tags needed by editor
+def is_editor
+  true
+end
+
 class CmsTextsController < ActionController::Base
 
   http_basic_authenticate_with :name => Cms.username, :password => Cms.password
@@ -56,19 +61,27 @@ class CmsTextsController < ActionController::Base
     controller_name, action_name = page.split('#')
     controller_name = controller_name.split('::').map {|a| a.capitalize }.join('::')
     controller = Kernel.const_get("#{controller_name}Controller").new
+    controller.instance_variable_set(:@is_editor, true)
     controller.request = self.request
     controller.send(action_name)
-    controller.instance_variable_set(:@is_editor, true)
     controller.render_to_string(action_name)
   end
 
   def editable_email(email)
     mailer_name, action_name = email.first.split('#')
-    mailer = Kernel.const_get(mailer_name)
+
+    if mailer_name.include? '::'
+      mailer_name = mailer_name.split('::')
+      base = mailer_name[0]
+
+      mailer = mailer_name[1..-1].inject(Kernel.const_get(base)) {|a,b| a.const_get(b)}
+    else
+      mailer = Kernel.const_get(mailer_name)
+    end
     mailer.layout(false)
     mailer.instance_variable_set(:@is_editor, true)
 
-    # Set variables used by template, and append is_preview to mailer to not send actual email
+    # Send dummy variables and render email
     args = email.last[:args] + [true]
     mailer.send(action_name, *args)
   end

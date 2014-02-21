@@ -14,12 +14,12 @@ h2.cms {
     color: #999;
 }
 
-ul {
+ul.cms {
     padding-left: 20px;
     list-style-type: none;
 }
 
-ul li:before
+ul.cms li:before
 {
     content: '\2605';
     margin: 0 20px 0 -20px;

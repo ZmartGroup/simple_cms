@@ -1,6 +1,7 @@
 # Add ct view helper, use this to tag text for inclusion in the CMS
 module ApplicationHelper
-  def ct(key, default_text, print_editor_tags=false)
+  def ct(key, default_text)
+    print_editor_tags = defined?(is_editor) && is_editor
     if key.is_a?(String) && (key[0] == '.')
       key = "#{ controller_path.tr('/', '.') }.#{ action_name }#{ key }"
       args[0] = key
