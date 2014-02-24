@@ -1,8 +1,3 @@
-# Picked up in CMS helper to insert tags needed by editor
-def is_editor
-  true
-end
-
 class CmsTextsController < ActionController::Base
 
   http_basic_authenticate_with :name => Cms.username, :password => Cms.password
@@ -81,7 +76,7 @@ class CmsTextsController < ActionController::Base
     mailer.layout(false)
     mailer.instance_variable_set(:@is_editor, true)
 
-    # Send dummy variables and render email
+    # Since mailers cannot be instanciated @is_editor cannot be injected the same way as for controllers, hence the extra param here
     args = email.last[:args] + [true]
     mailer.send(action_name, *args)
   end

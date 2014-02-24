@@ -10,6 +10,13 @@ module Cms
   mattr_accessor :mailers
   mattr_accessor :allowed_ips
 
+  self.route = 'cms'
+  self.username = ''
+  self.password = ''
+  self.controllers = []
+  self.mailers = []
+  self.allowed_ips = []
+
   def self.setup
     yield self
   end
