@@ -1,7 +1,6 @@
 class CmsTextsController < Cms.parent_controller
 
-  http_basic_authenticate_with :name => Cms.username, :password => Cms.password
-
+  authorize_actions_for :lazy_authority_class, :actions => {:edit_email => :update}
   layout Cms.layout
 
   def self.clear_cms_cache
@@ -51,11 +50,25 @@ class CmsTextsController < Cms.parent_controller
 
   private
 
+  def load_class(class_name)
+    if class_name.include? '::'
+      class_name = class_name.split('::')
+      base = class_name[0]
+      class_name[1..-1].inject(Kernel.const_get(base)) {|a,b| a.const_get(b)}
+    else
+      Kernel.const_get(class_name)
+    end
+  end
+
+  def lazy_authority_class
+    load_class(Cms.authorizer_name)
+  end
+
   def editable_page(page)
     # Setup a dummy controller and render the page to be edited
     controller_name, action_name = page.split('#')
     controller_name = controller_name.split('::').map {|a| a.capitalize }.join('::')
-    controller = Kernel.const_get("#{controller_name}Controller").new
+    controller = load_class("#{controller_name}Controller").new
     controller.instance_variable_set(:@is_editor, true)
     controller.request = self.request
     controller.send(action_name)
@@ -64,15 +77,7 @@ class CmsTextsController < Cms.parent_controller
 
   def editable_email(email)
     mailer_name, action_name = email.first.split('#')
-
-    if mailer_name.include? '::'
-      mailer_name = mailer_name.split('::')
-      base = mailer_name[0]
-
-      mailer = mailer_name[1..-1].inject(Kernel.const_get(base)) {|a,b| a.const_get(b)}
-    else
-      mailer = Kernel.const_get(mailer_name)
-    end
+    mailer = load_class(mailer_name)
     mailer.layout(false)
     mailer.instance_variable_set(:@is_editor, true)
 

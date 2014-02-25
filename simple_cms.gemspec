@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.md"]
 
   s.add_dependency "rails", ">= 3.0.0"
+  s.add_dependency "authority", ">= 2.9.0"
 end
