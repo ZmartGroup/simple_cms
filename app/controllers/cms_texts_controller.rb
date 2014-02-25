@@ -1,8 +1,8 @@
-class CmsTextsController < ActionController::Base
+class CmsTextsController < Cms.parent_controller
 
   http_basic_authenticate_with :name => Cms.username, :password => Cms.password
 
-  layout './cms'
+  layout Cms.layout
 
   def self.clear_cms_cache
     CmsTextsController.pages.each do |page_name|
