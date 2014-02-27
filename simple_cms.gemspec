@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 3.0.0"
   s.add_dependency "authority", ">= 2.9.0"
+  s.add_dependency "sanitize", ">= 2.1.0"
 end

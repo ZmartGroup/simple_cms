@@ -1,5 +1,7 @@
 #editor {
-    background: rgba(0,0,0,0.3);
+    width: 50% !important;
+    height: 360px;
+    left: 25%;
 }
 #editor .modal-header h3 {
     float: left;
@@ -15,7 +17,7 @@
     float: right;
 }
 #editor_input {
-    width: 100%;
+    width: 98%;
     height: 180px;
 }
 #editor_form {

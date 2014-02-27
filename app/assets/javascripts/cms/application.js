@@ -27,7 +27,7 @@ $(function(){
         var form = $(this);
         $.post(form.attr("action"), form.serialize(), function(sanitized_html){
 	    $("#editor").modal("hide");
-            $("#" + html_id).text(sanitized_html);
+            $("#" + html_id).html(sanitized_html);
         });
     });
 });
