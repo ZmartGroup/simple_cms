@@ -4,7 +4,10 @@ module Cms
 
     if Rails.version >= '3.1'
       initializer :assets, :group => :all do
-        Rails.application.config.assets.precompile += %w(cms_landing.css)
+        cms_asset_root = Cms::Engine.root.join('app', 'assets').to_s
+        Rails.application.config.assets.paths += ['/images', '/stylesheets', '/javascripts'].map {|a| cms_asset_root + a}
+        puts "#{Rails.application.config.assets.paths}"
+        Rails.application.config.assets.precompile += %w(cms/bootstrap.css cms/cms_landing.css cms/cms.css jhtml/jHtmlArea.png)
       end
     end
   end

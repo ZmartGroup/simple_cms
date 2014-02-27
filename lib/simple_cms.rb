@@ -1,4 +1,6 @@
+require 'rubygems'
 require 'authority'
+require 'sanitize'
 require "simple_cms/decorating_object"
 require "simple_cms/cache"
 require "simple_cms/engine"

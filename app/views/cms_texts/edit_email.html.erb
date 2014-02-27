@@ -1,11 +1,1 @@
-<h2 class="cms">Subject</h2>
-<div>
-  <%= @rendered_email.subject %>
-</div>
-
-<h2 class="cms">Body</h2>
-<div>
-  <%= @rendered_email.body.to_s.html_safe %>
-</div>
-
-<%= render partial: 'editor_modal' %>
+<%= @rendered_page.html_safe %>
