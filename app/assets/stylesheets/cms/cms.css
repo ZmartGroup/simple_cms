@@ -35,3 +35,6 @@
     border-bottom: 1px solid #000;
     border-top: 1px solid #000;
 }
+.cms_if_block > .cms_if_block {
+    padding-left: 20px;
+}
