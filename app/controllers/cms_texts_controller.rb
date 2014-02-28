@@ -20,7 +20,7 @@ class CmsTextsController < Cms.parent_controller
   end
 
   def self.mailers
-    Cms.mailers.each_with_index.map {|o, index| [index, o[0], o[1].length > 1 ? " - #{o[1][:description]}" : '']}
+    Cms.mailers.each_with_index.map {|o, index| [index, o[0], o[1][:description]]}
   end
 
   def index

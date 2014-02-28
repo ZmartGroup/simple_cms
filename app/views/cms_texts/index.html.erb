@@ -13,7 +13,7 @@
 <h2 class="cms">Email</h2>
 <ul class="cms">
   <% @mailers.each do |index, mailer, description| %>
-  <li><%= link_to "#{mailer}" , edit_email_cms_texts_path(index) %><%= description %></li>
+  <li><%= link_to "#{description}" , edit_email_cms_texts_path(index) %></li>
   <% end %>
 </ul>
 <% end %>
