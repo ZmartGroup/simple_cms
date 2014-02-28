@@ -1,6 +1,6 @@
 class CmsTextsController < Cms.parent_controller
 
-  authorize_actions_for :lazy_authority_class, :actions => {:edit_email => :update}
+  authorize_actions_for :lazy_authority_class, actions: {edit_email: :update, preview_email: :read}
   layout Cms.layout
 
   def self.clear_cms_cache
@@ -35,14 +35,7 @@ class CmsTextsController < Cms.parent_controller
   end
 
   def edit_email
-    email = Cms.mailers[request.params['email_name'].to_i]
-    mailer_name, action_name = email.first.split('#')
-    mailer = load_class(mailer_name)
-    mailer.layout(false)
-
-    # Since mailers cannot be instanciated @is_editor cannot be injected the same way as for controllers, hence the extra param here
-    args = email.last[:args] + [true]
-    @rendered_email = mailer.send(action_name, *args)
+    @rendered_email = render_email
     @rendered_page = inject_editor(render_to_string(:editable_email))
     render layout: nil
   end
@@ -56,6 +49,11 @@ class CmsTextsController < Cms.parent_controller
 
     CmsTextsController.clear_cms_cache
     render text: value
+  end
+
+  def preview_email
+    @rendered_page = render_email.body.to_s
+    render "edit_email", layout: Cms.email_preview_layout
   end
 
   private
@@ -102,5 +100,17 @@ class CmsTextsController < Cms.parent_controller
 
   def cms_text_params
     request.params.require(:cms_text).permit(:id, :value)
+  end
+
+  def render_email
+    @email_number = request.params['email_name'].to_i
+    email = Cms.mailers[@email_number]
+    mailer_name, action_name = email.first.split('#')
+    mailer = load_class(mailer_name)
+    mailer.layout(false)
+
+    # Since mailers cannot be instanciated @is_editor cannot be injected the same way as for controllers, hence the extra param here
+    args = email.last[:args] + [true]
+    mailer.send(action_name, *args)
   end
 end
