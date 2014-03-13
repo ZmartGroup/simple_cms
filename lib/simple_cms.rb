@@ -13,7 +13,6 @@ module Cms
   mattr_accessor :authorizer_name
   mattr_accessor :controllers
   mattr_accessor :mailers
-  mattr_accessor :allowed_ips
   mattr_accessor :email_preview_layout
 
   self.route = 'cms'
@@ -22,7 +21,6 @@ module Cms
   self.authorizer_name = 'CmsAuthorizer'
   self.controllers = []
   self.mailers = []
-  self.allowed_ips = []
   self.email_preview_layout = nil
 
   def self.setup
