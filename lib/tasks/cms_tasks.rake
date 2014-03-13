@@ -7,18 +7,17 @@ namespace :cms do
 
   task :install_initializer do
     require 'digest'
-    username = 'contentmanager'
-    password = (Digest::SHA2.new << rand.to_s).to_s[0..13]
     filepath = Rails.root.join *%w(config initializers cms.rb)
     File.open(filepath, 'w') do |f|
       f << <<-CONFIG
 Cms.setup do |config|
-  config.route = 'cms'
-  config.username = '#{username}'
-  config.password = '#{password}'
-  config.controllers = []
-  config.mailers = []
-  config.allowed_ips = []
+  self.route = 'cms'
+  self.parent_controller = ActionController::Base
+  self.layout = './cms'
+  self.authorizer_name = 'CmsAuthorizer'
+  self.controllers = []
+  self.mailers = []
+  self.email_preview_layout = nil
 
   config.controllers.each do |controller_name|
     controller = Kernel.const_get(controller_name)
@@ -29,12 +28,13 @@ CONFIG
     end
     puts <<-INFO
 Cms initializer created with
-  route: cms
-  username: #{username}
-  password: #{password}
+  route: 'cms'
+  parent_controller: ActionController::Base
+  layout: './cms'
+  authorizer_name: 'CmsAuthorizer'
   controllers: []
   mailers: []
-  allowed_ips: []
+  email_preview_layout: nil
 Now run 'rake db:migrate'.
     INFO
   end
