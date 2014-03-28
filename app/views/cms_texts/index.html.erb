@@ -9,11 +9,29 @@
 </ul>
 <% end %>
 
+<h2 class="cms">Subpages <%= link_to "New Subpage", new_cms_page_path, class: 'btn btn-mini btn-primary' %></h2>
+<% unless @sub_pages.nil? || @sub_pages.empty? %>
+<ul class="cms">
+  <% @sub_pages.each do |page| %>
+  <li><%= show_public_cms_pages_path(page.url) %> - <%= page.title %> <%= link_to "Edit", edit_cms_page_path(page), class: 'btn btn-mini btn-primary' %> <%= link_to "Show", show_public_cms_pages_path(page.url), class: 'btn btn-mini' %> <%= link_to "Delete", cms_page_path(page), method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete the subpage?" } %></li>
+  <% end %>
+</ul>
+<% end %>
+
 <% unless @mailers.empty? %>
 <h2 class="cms">Email</h2>
 <ul class="cms">
   <% @mailers.each do |index, mailer, description| %>
   <li><%= link_to "#{description}" , edit_email_cms_texts_path(index) %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<% unless @pdfs.empty? %>
+<h2 class="cms">Letters</h2>
+<ul class="cms">
+  <% @pdfs.each do |index, pdf, description| %>
+  <li><%= link_to "#{description}", edit_pdf_letter_cms_texts_path(index) %></li>
   <% end %>
 </ul>
 <% end %>

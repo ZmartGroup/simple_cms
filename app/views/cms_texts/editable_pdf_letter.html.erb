@@ -1,0 +1,4 @@
+<%= link_to "Preview", preview_pdf_letter_cms_texts_path(@pdf_number) %>
+<div>
+  <%= @rendered_pdf.to_s.html_safe %>
+</div>

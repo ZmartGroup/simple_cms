@@ -26,6 +26,7 @@
 #editor_form textarea {
     margin: 10px 0;
     padding: 2px;
+    width: 100%;
 }
 .cms_if_block {
     background: repeating-linear-gradient(45deg, rgba(230, 230, 230, 0.6) 0px, rgba(230,180,180, 0.6) 25px, transparent 25px, transparent 50px, transparent 50px);
@@ -37,4 +38,23 @@
 }
 .cms_if_block > .cms_if_block {
     padding-left: 20px;
+}
+#pages_editor_form textarea,
+#pages_editor_form .jHtmlArea {
+    height: 600px;
+    width: 70%;
+}
+#pages_editor_form input {
+    width: 300px;
+}
+#pages_editor_form .cms_page_url,
+#pages_editor_form .cms_page_title {
+    width: 400px;
+    clear: both;
+}
+#pages_editor_form .form-group input {
+    float: right;
+}
+#pages_editor_form .form-group {
+    margin-bottom: 20px;
 }

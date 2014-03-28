@@ -1,6 +1,11 @@
 class CmsTextsController < Cms.parent_controller
 
-  authorize_actions_for :lazy_authority_class, actions: {edit_email: :update, preview_email: :read}
+  authorize_actions_for :lazy_authority_class, actions: {
+    edit_email: :update,
+    edit_pdf_letter: :update,
+    preview_email: :read,
+    preview_pdf_letter: :read,
+  }
   layout Cms.layout
 
   def self.clear_cms_cache
@@ -23,9 +28,15 @@ class CmsTextsController < Cms.parent_controller
     Cms.mailers.each_with_index.map {|o, index| [index, o[0], o[1][:description]]}
   end
 
+  def self.pdf_letters
+    Cms.pdf_letters.each_with_index.map {|o, index| [index, o[0], o[1][:description]]}
+  end
+
   def index
     @pages = CmsTextsController.pages
     @mailers = CmsTextsController.mailers
+    @pdfs = CmsTextsController.pdf_letters
+    @sub_pages = CmsPage.all
   end
 
   def edit
@@ -37,6 +48,12 @@ class CmsTextsController < Cms.parent_controller
   def edit_email
     @rendered_email = render_email
     @rendered_page = inject_editor(render_to_string(:editable_email))
+    render layout: nil
+  end
+
+  def edit_pdf_letter
+    @rendered_pdf = render_pdf_letter(false)
+    @rendered_page = inject_editor(render_to_string(:editable_pdf_letter))
     render layout: nil
   end
 
@@ -54,6 +71,10 @@ class CmsTextsController < Cms.parent_controller
   def preview_email
     @rendered_page = render_email.body.to_s
     render "edit_email", layout: Cms.email_preview_layout
+  end
+
+  def preview_pdf_letter
+    render text: render_pdf_letter(true), content_type: 'application/pdf'
   end
 
   private
@@ -98,10 +119,6 @@ class CmsTextsController < Cms.parent_controller
   def editor_header
   end
 
-  def cms_text_params
-    request.params.require(:cms_text).permit(:id, :value)
-  end
-
   def render_email
     @email_number = request.params['email_name'].to_i
     email = Cms.mailers[@email_number]
@@ -112,5 +129,18 @@ class CmsTextsController < Cms.parent_controller
     # Since mailers cannot be instanciated @is_editor cannot be injected the same way as for controllers, hence the extra param here
     args = email.last[:args] + [true]
     mailer.send(action_name, *args)
+  end
+
+  def render_pdf_letter(is_preview)
+    @pdf_number = request.params['pdf_letter_index'].to_i
+    pdf_letter = Cms.pdf_letters[@pdf_number]
+    pdf_renderer_class_name, action_name = pdf_letter.first.split('#')
+    letter_renderer = load_class(pdf_renderer_class_name)
+    unless is_preview
+      letter_renderer = letter_renderer.new
+      letter_renderer.instance_variable_set(:@is_editor, true)
+      letter_renderer.send(action_name, *pdf_letter.last[:args])
+    end
+    letter_renderer.send(action_name, *pdf_letter.last[:args])
   end
 end

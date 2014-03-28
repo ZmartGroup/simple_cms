@@ -1,0 +1,19 @@
+<div id="pages_editor_form">
+<%= simple_form_for @cms_page do |form| %>
+  <%= form.input :url, input_html: {type: 'text'} %>
+  <%= form.input :title %>
+  <%= form.input :body %>
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>
+</div>
+<script type="text/javascript">
+$(function(){
+  function isIE(){
+    var user_agent = navigator.userAgent.toLowerCase();
+    return (user_agent.indexOf('msie') != -1) ? parseInt(user_agent.split('msie')[1]) : false;
+  }
+  var is_ie = isIE();
+  $.browser = {msie: is_ie && is_ie < 9};
+  $("#cms_page_body").htmlarea({toolbar: ["bold", "italic", "underline", "|", "h2", "h3", "|", "link", "unlink", "|", "unorderedList", "orderedList", "|", "html"]});
+});
+</script>

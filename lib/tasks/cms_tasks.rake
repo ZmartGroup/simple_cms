@@ -1,5 +1,10 @@
 namespace :cms do
-  desc "Install the plugin, including the migration."
+  desc "Install migrations."
+  task :install_migrations do
+    Rake::Task['cms_engine:install:migrations'].invoke
+  end
+
+  desc "Install the plugin, including the migrations."
   task :install do
     Rake::Task['cms:install_initializer'].invoke
     Rake::Task['cms_engine:install:migrations'].invoke

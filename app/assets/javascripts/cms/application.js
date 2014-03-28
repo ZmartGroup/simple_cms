@@ -9,7 +9,7 @@ $(function(){
 	return (user_agent.indexOf('msie') != -1) ? parseInt(user_agent.split('msie')[1]) : false;
     }
     var is_ie = isIE();
-    $.browser = {msie: is_ie < 9};
+    $.browser = {msie: is_ie && is_ie < 9};
     $("#editor_input").htmlarea({toolbar: ["bold", "italic", "underline"]});
 
     $(".cms_editable").on("click", function(ev){

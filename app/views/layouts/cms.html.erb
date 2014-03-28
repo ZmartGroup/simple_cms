@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>Content Management System</title>
-  <%= stylesheet_link_tag "cms/application", :media => "all" %>
-
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <%= javascript_include_tag "cms/application.js" %>
+  <%= stylesheet_link_tag "cms/application", :media => "all" %>
 </head>
 <body>
   <% if notice %>
