@@ -42,14 +42,16 @@
 #pages_editor_form textarea,
 #pages_editor_form .jHtmlArea {
     height: 600px;
-    width: 70%;
+    width: 700px;
 }
 #pages_editor_form input {
-    width: 300px;
+    width: 80%;
 }
 #pages_editor_form .cms_page_url,
+#pages_editor_form .cms_page_meta_description,
+#pages_editor_form .cms_page_meta_keywords,
 #pages_editor_form .cms_page_title {
-    width: 400px;
+    width: 700px;
     clear: both;
 }
 #pages_editor_form .form-group input {
