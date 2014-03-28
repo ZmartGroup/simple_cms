@@ -19,7 +19,10 @@ class CmsPagesController < Cms.parent_controller
 
   def create
     p = request.params[:cms_page]
-    body = Sanitize.clean(p['body'], :elements => allowed_elements)
+    body = Sanitize.clean(p['body'],
+      :elements => allowed_elements,
+      :attributes => { 'img' => ['alt', 'src', 'title'] },
+      :protocols => { 'img' => {'src' => ['http', 'https', :relative]}})
     @cms_page = CmsPage.new(url: p['url'], title: p['title'], body: body)
 
     if @cms_page.save
@@ -39,7 +42,11 @@ class CmsPagesController < Cms.parent_controller
     @cms_page = CmsPage.find(request.params['id'])
     @cms_page.url = p['url']
     @cms_page.title = p['title']
-    @cms_page.body = Sanitize.clean(p['body'], :elements => allowed_elements)
+    body = Sanitize.clean(p['body'],
+      :elements => allowed_elements,
+      :attributes => { 'img' => ['alt', 'src', 'title'] },
+      :protocols => { 'img' => {'src' => ['http', 'https', :relative]}})
+    @cms_page.body = body
     if @cms_page.save
       flash[:success] = "The page #{@cms_page.title} was updated successfully"
       redirect_to cms_texts_path
@@ -72,6 +79,6 @@ class CmsPagesController < Cms.parent_controller
   end
 
   def allowed_elements
-    %w[a br dd dl dt i ol p div b u i ul li h2 h3 img]
+    %w[a br dd dl dt i ol p div b u i ul li h1 h2 h3 h4 h5 img]
   end
 end
