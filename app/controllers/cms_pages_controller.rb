@@ -72,6 +72,6 @@ class CmsPagesController < Cms.parent_controller
   end
 
   def allowed_elements
-    %w[a br dd dl dt i ol p div b u i ul li h2 h3]
+    %w[a br dd dl dt i ol p div b u i ul li h2 h3 img]
   end
 end
