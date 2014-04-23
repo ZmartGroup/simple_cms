@@ -36,7 +36,7 @@ class CmsTextsController < Cms.parent_controller
     @pages = CmsTextsController.pages
     @mailers = CmsTextsController.mailers
     @pdfs = CmsTextsController.pdf_letters
-    @sub_pages = CmsPage.all
+    @sub_pages = Cms.sub_pages ? CmsPage.all : []
   end
 
   def edit

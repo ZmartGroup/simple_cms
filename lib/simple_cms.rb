@@ -17,6 +17,7 @@ module Cms
   mattr_accessor :pdf_letters
   mattr_accessor :email_preview_layout
   mattr_accessor :sub_page_layout
+  mattr_accessor :sub_pages
 
   self.route = 'cms'
   self.parent_controller = ActionController::Base
@@ -27,6 +28,7 @@ module Cms
   self.mailers = []
   self.pdf_letters = []
   self.email_preview_layout = nil
+  self.sub_pages = false
 
   def self.setup
     yield self
