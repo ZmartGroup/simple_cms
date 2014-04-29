@@ -60,7 +60,8 @@ class CmsTextsController < Cms.parent_controller
   def update
     @cms_text = CmsText.find(request.params[:cms_text]['id'])
     value = Sanitize.clean(request.params['cms_text']['value'],
-                           :elements => ['b', 'i', 'u', 'p', 'br'])
+                           :elements => ['b', 'i', 'u', 'p', 'br'],
+                           :output => :xhtml)
     @cms_text.value = value
     @cms_text.save!
 
