@@ -5,8 +5,12 @@ module ApplicationHelper
     cms_text = CmsText.find_by_key(key.to_s)
 
     unless cms_text
-      cms_text = CmsText.create(key: key.to_s, value: default_text)
-      CmsTextsController.clear_cms_cache
+      begin
+        cms_text = CmsText.create(key: key.to_s, value: default_text)
+        CmsTextsController.clear_cms_cache
+      rescue ActiveRecord::RecordNotUnique
+        cms_text = CmsText.find_by_key(key.to_s)
+      end
     end
 
     if print_editor_tags
