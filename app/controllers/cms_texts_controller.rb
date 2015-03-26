@@ -62,7 +62,7 @@ class CmsTextsController < Cms.parent_controller
     value = Sanitize.clean(request.params['cms_text']['value'],
                            :elements => ['b', 'i', 'u', 'p', 'br'],
                            :output => :xhtml)
-    @cms_text.value = value
+    @cms_text.value = value.gsub('<p></p>', '')
     @cms_text.save!
 
     CmsTextsController.clear_cms_cache
