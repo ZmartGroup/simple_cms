@@ -14,7 +14,7 @@ module ApplicationHelper
     end
 
     if print_editor_tags
-      return "<span class=\"cms_editable\" id=\"ct_#{cms_text.id}\">#{cms_text.value}</span>".html_safe
+      return "<div class=\"cms_editable\" id=\"ct_#{cms_text.id}\">#{cms_text.value}</div>".html_safe
     else
       return cms_text.value.html_safe
     end

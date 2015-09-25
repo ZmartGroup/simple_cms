@@ -60,3 +60,6 @@
 #pages_editor_form .form-group {
     margin-bottom: 20px;
 }
+.cms_editable {
+    display: inline-block;
+}
